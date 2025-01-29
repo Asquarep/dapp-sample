@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import abi from './abi.json'
+import abi from '../ABIs/abi.json'
 import { ethers } from 'ethers'
 
 function App() {

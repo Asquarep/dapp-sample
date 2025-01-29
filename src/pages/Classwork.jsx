@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import abi from './classworkAbi.json'
+import abi from '../ABIs/classworkAbi.json'
 import { ethers } from 'ethers'
 import { ToastContainer, toast } from 'react-toastify';
 
