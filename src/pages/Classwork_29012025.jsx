@@ -9,6 +9,7 @@ function Classwork_29012025() {
     const [taskText, setTaskText] = useState('')
     const [myTasks, setMyTasks] = useState([])
     const [isDeleted, setIsDeleted] = useState(false)
+    const [loading, setLoading] = useState(false)
     const contractAddress = "0xE359796e59423EA628DE2F13b24b868b4771c117"
 
     async function getAccounts() {
@@ -84,37 +85,38 @@ function Classwork_29012025() {
 
 
     return (
-        <div style={{width:"100%", display:"flex", justifyContent:"center", alignItems:"flex-start"}}>
-        <div style={{ display: "flex", justifyContent: "center", backgroundColor:"lightblue", width:"500px", height:"500px", borderRadius:"5px", boxShadow:"5px 5px grey" }}>
-            <div>
-                <ToastContainer />
-
+        <div style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", justifyContent: "center", backgroundColor: "lightblue", width: "500px", height: "500px", borderRadius: "5px", boxShadow: "2px 3px 5px purple" }}>
                 <div>
+                    <ToastContainer />
+
                     <div>
-                        <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} type='text' placeholder='Task Title' />
+                        <div>
+                            <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} type='text' placeholder='Task Title' />
+                        </div>
+                        <div>
+                            <input value={taskText} onChange={(e) => setTaskText(e.target.value)} type='text' placeholder='Task Text' />
+                        </div>
+                        <div>
+                            <input value={isDeleted} onChange={() => setIsDeleted(!isDeleted)} type='checkbox' placeholder='is deleted' />
+                        </div>
                     </div>
-                    <div>
-                        <input value={taskText} onChange={(e) => setTaskText(e.target.value)} type='text' placeholder='Task Text' />
-                    </div>
-                    <div>
-                        <input value={isDeleted} onChange={() => setIsDeleted(!isDeleted)} type='checkbox' placeholder='is deleted' />
-                    </div>
+                    {loading && <p>{`Loading... `}</p>}
+                    <button onClick={() => createTask()}>Create task</button>
+                    <p></p>
+                    <button onClick={() => getMyTask()}>Get My Tasks</button>
+                    {/* <p>Contract Balance: {retrievedMessage}</p> */}
+                    {myTasks.length > 0 &&
+                        <div>
+                            {myTasks.map((each) => (
+                                <div>
+                                    <p>{each}</p>
+                                    <button onClick={() => deleteTask(each.id)}>Create task</button>
+                                </div>
+                            ))}
+                        </div>}
                 </div>
-                <button onClick={() => createTask()}>Create task</button>
-                <p></p>
-                <button onClick={() => getMyTask()}>Get My Tasks</button>
-                {/* <p>Contract Balance: {retrievedMessage}</p> */}
-                {myTasks.length > 0 &&
-                    <div>
-                        {myTasks.map((each) => (
-                            <div>
-                                <p>{each}</p>
-                                <button onClick={() => deleteTask(each.id)}>Create task</button>
-                            </div>
-                        ))}
-                    </div>}
             </div>
-        </div>
         </div>
     )
 }
