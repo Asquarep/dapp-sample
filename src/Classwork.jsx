@@ -25,10 +25,10 @@ function Classwork() {
             try {
                 const tx = await contract.withdraw(userInput)
                 const receipt = tx.wait()
-                toast('Transaction successful');
+                toast.success('Transaction successful');
 
             } catch (err) {
-                toast("Failed Transaction");
+                toast.error(`Failed Transaction: ${err}`);
 
             }
         }
@@ -46,10 +46,10 @@ function Classwork() {
             try {
                 const tx = await contract.deposit(userInput2)
                 const receipt = tx.wait()
-                toast('Transaction successful');
+                toast.success('Transaction successful');
 
             } catch (err) {
-                toast("Failed Transaction");
+                toast.error(`Failed Transaction: ${err}`);
 
             }
         }
@@ -59,25 +59,21 @@ function Classwork() {
 
     async function getBalance() {
         if (typeof window.ethereum !== "undefined") {
+            setRetrievedMessage("Retrieving...")
             await getAccounts();
 
             const provider = new ethers.BrowserProvider(window.ethereum);
 
-
             const contract = new ethers.Contract(contractAddress, abi, provider);
             try {
                 const tx = await contract.getBalance();
-                console.log(tx);
-                
-                setRetrievedMessage(tx)
+                setRetrievedMessage(`${tx}`)
                 toast.success("Transaction successful", tx);
             } catch (error) {
-                console.log(" error", error);
-                toast.error("Transaction Failed", error);
+                toast.error(`Failed Transaction: ${error}`);
             }
         }
     }
-
 
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>

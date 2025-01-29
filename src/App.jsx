@@ -54,7 +54,7 @@ function App() {
 
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center", alignItems:"center" }}>
       <div>
         <input value={userInput} onChange={(e) => setUserInput(e.target.value)} type='text' placeholder='set your message' />
         <button onClick={() => setMessage()}>Set Message</button>
