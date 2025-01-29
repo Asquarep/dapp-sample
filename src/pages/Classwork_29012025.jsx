@@ -18,26 +18,6 @@ function Classwork_29012025() {
     useEffect(() => {
         getMyTask()
     }, [])
-    async function withdraw() {
-        if (typeof window.ethereum !== undefined) {
-            await getAccounts()
-
-            const provider = new ethers.BrowserProvider(window.ethereum)
-            const signer = await provider.getSigner()
-            const contract = new ethers.Contract(contractAddress, abi, signer)
-
-            try {
-                const tx = await contract.withdraw(taskTitle)
-                const receipt = tx.wait()
-                toast.success('Transaction successful');
-
-            } catch (err) {
-                toast.error(`Failed Transaction: ${err}`);
-
-            }
-        }
-
-    }
 
     async function createTask() {
         if (typeof window.ethereum !== undefined) {
@@ -60,29 +40,31 @@ function Classwork_29012025() {
 
     }
 
+    async function deleteTask(_id) {
+        if (typeof window.ethereum !== undefined) {
+            await getAccounts()
 
-    async function getBalance() {
-        if (typeof window.ethereum !== "undefined") {
-            setRetrievedMessage("Retrieving...")
-            await getAccounts();
+            const provider = new ethers.BrowserProvider(window.ethereum)
+            // const signer = await provider.getSigner()
+            const contract = new ethers.Contract(contractAddress, abi, provider)
 
-            const provider = new ethers.BrowserProvider(window.ethereum);
-
-            const contract = new ethers.Contract(contractAddress, abi, provider);
             try {
-                const tx = await contract.getBalance();
-                // setRetrievedMessage(`${tx}`)
-                toast.success("Transaction successful", tx);
-            } catch (error) {
-                toast.error(`Failed Transaction: ${error}`);
+                const tx = await contract.deleteTask(_id)
+                const receipt = tx.wait()
+                toast.success('Transaction successful');
+
+            } catch (err) {
+                toast.error(`Failed Transaction: ${err}`);
+
             }
         }
+
     }
 
 
     async function getMyTask() {
         if (typeof window.ethereum !== "undefined") {
-            
+
             await getAccounts();
 
             const provider = new ethers.BrowserProvider(window.ethereum);
@@ -91,7 +73,7 @@ function Classwork_29012025() {
             try {
                 const tx = await contract.getMyTask();
                 console.log("TX: ", tx);
-                
+
                 setMyTasks(tx)
                 toast.success("Transaction successful", tx);
             } catch (error) {
@@ -99,16 +81,14 @@ function Classwork_29012025() {
             }
         }
     }
-    console.log(myTasks.length);
 
-    
+
     return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{width:"100%", display:"flex", justifyContent:"center", alignItems:"flex-start"}}>
+        <div style={{ display: "flex", justifyContent: "center", backgroundColor:"lightblue", width:"500px", height:"500px", borderRadius:"5px", boxShadow:"5px 5px grey" }}>
             <div>
                 <ToastContainer />
-                <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} type='text' placeholder='set your message' />
-                <button onClick={() => withdraw()}>Withdraw</button>
-                <p></p>
+
                 <div>
                     <div>
                         <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} type='text' placeholder='Task Title' />
@@ -117,7 +97,7 @@ function Classwork_29012025() {
                         <input value={taskText} onChange={(e) => setTaskText(e.target.value)} type='text' placeholder='Task Text' />
                     </div>
                     <div>
-                        <input value={isDeleted} onChange={()=> setIsDeleted(!isDeleted)} type='checkbox' placeholder='is deleted' />
+                        <input value={isDeleted} onChange={() => setIsDeleted(!isDeleted)} type='checkbox' placeholder='is deleted' />
                     </div>
                 </div>
                 <button onClick={() => createTask()}>Create task</button>
@@ -127,10 +107,14 @@ function Classwork_29012025() {
                 {myTasks.length > 0 &&
                     <div>
                         {myTasks.map((each) => (
-                            <>{each}</>
+                            <div>
+                                <p>{each}</p>
+                                <button onClick={() => deleteTask(each.id)}>Create task</button>
+                            </div>
                         ))}
                     </div>}
             </div>
+        </div>
         </div>
     )
 }
