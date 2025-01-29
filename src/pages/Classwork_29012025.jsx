@@ -91,20 +91,22 @@ function Classwork_29012025() {
                     <ToastContainer />
 
                     <div>
+                        <br/>
                         <div>
                             <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} type='text' placeholder='Task Title' />
                         </div>
                         <div>
                             <input value={taskText} onChange={(e) => setTaskText(e.target.value)} type='text' placeholder='Task Text' />
                         </div>
-                        <div>
+                        <div style={{display: "flex", justifyContent: "flex-start",}}>
                             <input value={isDeleted} onChange={() => setIsDeleted(!isDeleted)} type='checkbox' placeholder='is deleted' />
+                            <p>Is Deleted</p>
                         </div>
                     </div>
                     {loading && <p>{`Loading... `}</p>}
-                    <button onClick={() => createTask()}>Create task</button>
+                    <button style={{borderRadius: "2px", boxShadow: "1px 1px 2px purple" }} onClick={() => createTask()}>Create task</button>
                     <p></p>
-                    <button onClick={() => getMyTask()}>Get My Tasks</button>
+                    <button style={{borderRadius: "2px", boxShadow: "1px 1px 2px purple" }} onClick={() => getMyTask()}>Get My Tasks</button>
                     {/* <p>Contract Balance: {retrievedMessage}</p> */}
                     {myTasks.length > 0 &&
                         <div>
